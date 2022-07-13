@@ -80,10 +80,11 @@ def retrieve_and_print_faq_answer(question, question_embedding, sentence_embeddi
 
 
 def retrieve_best_match(dataset_path, model_path, raw_question):
+    print("retrieve_best_match start")
     question = clean_sentence(raw_question, stopwords=False)
     model = models.KeyedVectors.load_word2vec_format(
         'static/models/GoogleNews-vectors-negative300.bin', binary=True)
-    print("model import successfully")
+    print("retrieve_best_match model import successfully")
     w2vec_embedding = model['computer']
     w2vec_embedding_size = len(w2vec_embedding)
     question_embedding = get_phrase_embedding(question, w2vec_embedding_size, model)
@@ -92,6 +93,7 @@ def retrieve_best_match(dataset_path, model_path, raw_question):
     df.columns = ["questions", "answers"]
     cleaned_sentences = get_cleaned_sentences(df, stopwords=True)
     result_dict = retrieve_and_print_faq_answer(question, question_embedding, sent_embeddings, df, cleaned_sentences)
+    print("retrieve_best_match end")
     return result_dict
 
 
